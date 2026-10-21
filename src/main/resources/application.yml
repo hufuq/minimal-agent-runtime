@@ -1,0 +1,22 @@
+server:
+  port: 8080
+
+agent:
+  llm:
+    # OpenAI 兼容协议：DeepSeek / 通义 / Kimi / OpenAI 均可，只需改三个环境变量
+    base-url: ${LLM_BASE_URL:https://api.deepseek.com}
+    api-key: ${LLM_API_KEY:}
+    model: ${LLM_MODEL:deepseek-chat}
+    timeout-seconds: 30
+  # 单次用户请求内，最多允许的 工具调用 循环轮次
+  max-loop-rounds: 5
+  # 送入 LLM 的历史消息最大条数（超出部分按 FIFO 丢弃最早的，系统提示词始终保留）
+  max-context-messages: 20
+  # session 闲置过期时间（分钟）
+  session-ttl-minutes: 120
+  # 单条工具结果写入上下文时的最大字符数（防止超长工具返回撑爆上下文）
+  tool-result-max-chars: 500
+
+logging:
+  level:
+    com.minimal.agent: INFO
